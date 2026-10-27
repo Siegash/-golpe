@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Isso é golpe?</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+:root{--bg:#e8edf1;--ink:#14212b;--soft:#4a5a66;--bubble:#fff;--mark:#ffdf4d;--link:#0b5cad;--warn:#b3261e;--line:#c3ced6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 "Atkinson Hyperlegible",Verdana,sans-serif}
+.col{max-width:660px;margin:0 auto;padding:0 20px}
+a,button.link{color:var(--link)}
+button.link{background:none;border:0;padding:0;font:inherit;text-decoration:underline;cursor:pointer}
+:focus-visible{outline:3px solid var(--link);outline-offset:2px}
+header{padding:22px 0 0}
+header .col{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.name{font-weight:700;font-size:1.15rem;text-decoration:none;color:var(--ink)}
+nav{font-size:.95rem;display:flex;gap:18px}
+h1{font-size:clamp(2rem,6.5vw,3.1rem);line-height:1.08;margin:44px 0 16px;letter-spacing:-.01em}
+h2{font-size:1.5rem;line-height:1.2;margin:0 0 10px}
+p{margin:0 0 14px}
+.lead{color:var(--soft);max-width:34em}
+label{display:block;font-weight:700;margin:30px 0 8px}
+textarea{width:100%;min-height:140px;padding:14px 16px;font:inherit;color:var(--ink);background:var(--bubble);border:2px solid var(--line);border-radius:6px 20px 20px 20px;resize:vertical}
+textarea:focus{border-color:var(--link);outline:0}
+.go{margin-top:10px;background:var(--ink);color:#fff;border:0;border-radius:6px;padding:12px 20px;font:inherit;font-weight:700;cursor:pointer}
+.go:hover{background:#2a3e4d}
+.tries{margin:14px 0 0;font-size:.95rem;color:var(--soft)}
+.tries button{margin-left:12px}
+.fine{font-size:.9rem;color:var(--soft);margin-top:16px}
+#out{margin-top:30px}
+#out[hidden]{display:none}
+.msg{background:var(--bubble);border-radius:6px 20px 20px 20px;padding:14px 16px;white-space:pre-wrap;overflow-wrap:anywhere}
+mark{background:var(--mark);color:inherit;padding:0 2px;border-radius:3px}
+.count{font-weight:700;margin:18px 0 8px}
+dl{margin:0}
+dt{font-weight:700;margin-top:12px}
+dt mark{font-weight:400}
+dd{margin:2px 0 0;color:var(--soft)}
+.next{margin-top:20px;padding-left:16px;border-left:4px solid var(--ink)}
+.next p{margin-bottom:6px}
+section{padding-top:60px}
+details{border-top:1px solid var(--line)}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{padding:14px 0;cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:400;font-size:1.4rem;line-height:1}
+details[open] summary::after{content:"\2212"}
+details div{padding:0 0 16px;color:var(--soft)}
+details ul{margin:6px 0 0;padding-left:20px}
+details li{margin-bottom:4px}
+.after{background:var(--ink);color:#fff;margin-top:70px;padding:44px 0 50px}
+.after p,.after li{color:#d3dce3}
+.after strong{color:#fff}
+.after ul{padding-left:20px}
+.after li{margin-bottom:12px}
+footer{padding:24px 0 40px;font-size:.9rem;color:var(--soft)}
+</style>
+</head>
+<body>
+<header>
+  <div class="col">
+    <a class="name" href="#">Isso é golpe?</a>
+    <nav><a href="#golpes">Tipos de golpe</a><a href="#ja-caí">Já caí</a></nav>
+  </div>
+</header>
+
+<main>
+<div class="col">
+  <h1>Recebeu uma mensagem que parece golpe?</h1>
+  <p class="lead">Cole o texto abaixo. As partes que costumam aparecer em golpes ficam marcadas, cada uma com a explicação.</p>
+
+  <label for="msg">Texto da mensagem</label>
+  <textarea id="msg" placeholder="Ex.: Sua encomenda está retida. Pague uma taxa neste link..."></textarea>
+  <button class="go" id="go">Marcar partes suspeitas</button>
+  <p class="tries">Testar com um exemplo:
+    <button class="link" data-t="Sua conta será bloqueada hoje. Clique neste link e confirme sua senha imediatamente.">conta bloqueada</button>
+    <button class="link" data-t="Parabéns! Você foi selecionado para uma vaga. Pague uma taxa de cadastro para garantir sua contratação.">vaga de emprego</button>
+    <button class="link" data-t="Oi, sou eu. Troquei de número. Preciso que você faça um Pix urgente e depois explico.">pedido de Pix</button>
+  </p>
+  <p class="fine">Não cole senhas, códigos recebidos por SMS nem dados de cartão. O texto não sai do seu navegador. A checagem procura palavras e padrões conhecidos: uma mensagem sem marcações ainda pode ser golpe.</p>
+
+  <div id="out" aria-live="polite" hidden></div>
+
+  <section id="golpes">
+    <h2>Golpes que se repetem</h2>
+    <p class="lead">Toque em um para ver o que conferir.</p>
+    <details>
+      <summary>Parente com número novo pedindo Pix</summary>
+      <div><p>A pessoa diz que trocou de número e pede uma transferência com pressa, prometendo explicar depois.</p>
+      <ul><li>Ligue para o número antigo, o que já estava na sua agenda.</li><li>Pergunte algo que só a pessoa de verdade saberia, sem dar a resposta na pergunta.</li><li>Fale com outro parente antes de transferir qualquer valor.</li></ul></div>
+    </details>
+    <details>
+      <summary>Encomenda retida, taxa para liberar</summary>
+      <div><p>Chega um link dizendo que o pacote parou e que falta pagar uma taxa.</p>
+      <ul><li>Não abra o link. Entre no app ou no site da loja digitando o endereço você mesmo.</li><li>Veja se o pedido realmente mostra alguma cobrança pendente.</li><li>Nunca informe cartão em página que chegou por mensagem.</li></ul></div>
+    </details>
+    <details>
+      <summary>Vaga de emprego que cobra para contratar</summary>
+      <div><p>A empresa aprova você rápido e pede dinheiro para cadastro, treinamento ou uniforme.</p>
+      <ul><li>Emprego de verdade não cobra para contratar.</li><li>Procure a empresa por conta própria e confirme se a vaga existe.</li><li>Não mande foto de documento antes de saber para quem está mandando.</li></ul></div>
+    </details>
+    <details>
+      <summary>Banco avisando que a conta vai ser bloqueada</summary>
+      <div><p>A mensagem ameaça bloquear a conta e pede senha, código ou um clique.</p>
+      <ul><li>Feche a mensagem e abra o aplicativo do banco.</li><li>Se quiser falar com alguém, ligue para o número que está no cartão.</li><li>Banco não pede senha nem código por mensagem.</li></ul></div>
+    </details>
+    <details>
+      <summary>Prêmio que você não lembra de ter disputado</summary>
+      <div><p>Você “ganhou” algo, mas precisa pagar uma taxa ou passar seus dados para receber.</p>
+      <ul><li>Pergunte-se se participou de alguma promoção.</li><li>Prêmio de verdade não exige pagamento para ser entregue.</li><li>Confira o regulamento no site oficial da empresa.</li></ul></div>
+    </details>
+    <details>
+      <summary>Pedido de código que chegou por SMS</summary>
+      <div><p>Alguém diz que mandou um código sem querer e pede que você repasse. Esse código dá acesso à sua conta.</p>
+      <ul><li>Não repasse o código a ninguém, mesmo que a pessoa pareça conhecida.</li><li>Se o contato é de alguém que você conhece, ligue para ela antes.</li><li>Ative a verificação em duas etapas nos seus aplicativos.</li></ul></div>
+    </details>
+  </section>
+</div>
+
+<div class="after" id="ja-caí">
+  <div class="col">
+    <h2>Já cliquei, paguei ou passei meus dados</h2>
+    <p>Acontece com gente atenta também. O que importa agora é a rapidez.</p>
+    <ul>
+      <li><strong>Mandou dinheiro.</strong> Ligue para o banco agora, pelo número oficial, e conte o que houve. Se foi Pix, peça a abertura do MED, o mecanismo de devolução do Pix.</li>
+      <li><strong>Passou senha ou código.</strong> Troque a senha de um aparelho confiável, saia das sessões abertas e ative a verificação em duas etapas.</li>
+      <li><strong>Instalou um aplicativo estranho.</strong> Apague o app, desconecte o celular da internet se algo parecer errado e procure alguém de confiança para revisar o aparelho.</li>
+      <li><strong>Guarde tudo.</strong> Salve prints, comprovantes e números de protocolo. Registre um boletim de ocorrência e, se a fraude envolveu uma empresa, reclame em consumidor.gov.br.</li>
+    </ul>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="col">Projeto de demonstração. Na dúvida, use sempre o telefone que está impresso no cartão ou no site oficial.</div>
+</footer>
+
+<script>
+const msg=document.getElementById('msg'),out=document.getElementById('out');
+const rules=[
+ {n:'Pressa ou ameaça',re:/urgente|imediatamente|agora|hoje|última chance|bloquead[ao]|suspens[ao]/gi,w:'Quem aplica golpe cria medo e pressa para você não parar para conferir.'},
+ {n:'Pedido de senha ou código',re:/senha|código de (?:verifica\w+|segurança|acesso)|token|confirme seus dados|informe seus dados/gi,w:'Banco e empresas não pedem senha nem código por mensagem. Nunca repasse.'},
+ {n:'Dinheiro ou taxa adiantada',re:/\bpix\b|transfer[êe]ncia|pague uma taxa|taxa de cadastro|depósito|pagamento antecipado/gi,w:'Antes de pagar, confirme quem pediu e por quê, por um canal que você já conhecia.'},
+ {n:'Link para resolver um problema',re:/clique (?:aqui|neste link)|acesse o link|link abaixo|(?:bit\.ly|tinyurl\.com)\/\S*|https?:\/\/\S+/gi,w:'O link pode levar a uma página falsa. Abra o app ou digite o endereço oficial você mesmo.'},
+ {n:'Prêmio ou oferta inesperada',re:/parabéns|foi selecionad[oa]|você ganhou|prêmio|renda extra|vaga garantida/gi,w:'Desconfie de benefício que ninguém prometeu e que exige pagamento ou dados.'},
+ {n:'Troca de número ou de canal',re:/troquei de número|número novo|sou eu|meu celular quebrou|não consigo atender/gi,w:'Ligue para o número antigo da pessoa antes de fazer qualquer coisa.'}
+];
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.getElementById('go').onclick=()=>{
+ const t=msg.value.trim();
+ if(!t){msg.focus();return}
+ const hits=[];
+ rules.forEach((r,i)=>{for(const m of t.matchAll(r.re))hits.push({s:m.index,e:m.index+m[0].length,i})});
+ hits.sort((a,b)=>a.s-b.s);
+ let html='',pos=0;const used=[];
+ for(const h of hits){
+  if(h.s<pos)continue;
+  html+=esc(t.slice(pos,h.s))+'<mark>'+esc(t.slice(h.s,h.e))+'</mark>';
+  pos=h.e;if(!used.includes(h.i))used.push(h.i);
+ }
+ html+=esc(t.slice(pos));
+ const n=hits.filter((h,k)=>true).length;
+ let body='<div class="msg">'+html+'</div>';
+ if(used.length){
+  body+='<p class="count">'+used.length+(used.length>1?' sinais encontrados':' sinal encontrado')+'</p><dl>'+
+   used.map(i=>'<dt>'+rules[i].n+'</dt><dd>'+rules[i].w+'</dd>').join('')+'</dl>'+
+   '<div class="next"><p><strong>Antes de responder:</strong> não clique, não pague e não mande código. Confirme com a pessoa ou a empresa por um canal que você mesmo encontrou.</p></div>';
+ }else{
+  body+='<p class="count">Nada marcado</p><p>O texto não tem os padrões que esta página reconhece. Confira mesmo assim quem enviou e, se pedir dinheiro ou dados, confirme por outro canal.</p>';
+ }
+ out.innerHTML=body;out.hidden=false;
+ out.scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{msg.value=b.dataset.t;msg.focus()});
+</script>
+</body>
+</html>
